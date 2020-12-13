@@ -1,6 +1,8 @@
 package com.example.splash;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,36 +53,29 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.Holder>{
         holder.body.setText(i.getContent());
 
 
-        Pattern p = Pattern.compile("<img[^>]+src\\s*=\\s*['\"]([^'\"]+)['\"][^>]*>");
-        Matcher m = p.matcher(i.getContent());
-        List<String> tokens = new ArrayList<>();
-        while (m.find()){
-            String token = m.group();
-            tokens.add(token);
-        }
+       Document document = Jsoup.parse(i.getContent());
+        holder.body.setText(document.text());
+
+       Elements elements = document.select("img");
+        Log.d("CODE","IMAGE  - "+  elements.get(0).attr("src"));
 
 
-        Picasso
+        Glide
                 .with(context)
-                .load(tokens.get(0))
+                .load(elements.get(0).attr("src"))
                 .into(holder.image);
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
 
+
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,MainActivity3.class);
+                intent.putExtra("url",i.getUrl());
+                context.startActivity(intent);
+            }
+        });
+        
 
     }
 
