@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,11 +55,26 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.Holder>{
         }
 
 
-        Glide
+        Picasso
                 .with(context)
                 .load(tokens.get(0))
-                .centerCrop()
                 .into(holder.image);
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
 
 
     }
